@@ -1,0 +1,4 @@
+Texturas de ambientCG.com, licencia CC0 1.0 (dominio público).
+- mahogany_*: Wood067
+- parquet_*: WoodFloor014
+- leather_*: Leather037

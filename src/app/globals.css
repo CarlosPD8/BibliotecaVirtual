@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+/*
+ * One theme only: a candle-lit room. The page is always dark because the 3D
+ * scene is, and the UI floats over it.
+ * Accent: gilt gold, used for every interactive highlight.
+ */
+:root {
+  --ink: #0c0806;
+  --panel: rgb(18 13 10 / 0.86);
+  --panel-solid: #16100c;
+  --line: rgb(217 180 95 / 0.28);
+  --line-strong: rgb(217 180 95 / 0.6);
+  --ivory: #efe6d3;
+  --muted: #b3a48f;
+  --faint: #857767;
+  --gold: #d9b45f;
+  --gold-deep: #a9853c;
+  --danger: #e08a74;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-panel: var(--panel);
+  --color-panel-solid: var(--panel-solid);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ivory: var(--ivory);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
+  --color-danger: var(--danger);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --radius-plate: 3px;
+}
+
+@layer base {
+  html {
+    background: var(--ink);
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--ink);
+    color: var(--ivory);
+    font-family: var(--font-body), Georgia, serif;
+    font-size: 18px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background: rgb(217 180 95 / 0.35);
+    color: var(--ivory);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Brass plate: the one surface style used by every floating panel. */
+  .plate {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-plate);
+    box-shadow:
+      inset 0 1px 0 rgb(255 230 180 / 0.06),
+      0 18px 50px rgb(0 0 0 / 0.45);
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .plate {
+      background: var(--panel-solid);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+
+  .smallcaps {
+    font-family: var(--font-display), serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .input {
+    height: 2.75rem;
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-plate);
+    background: rgb(12 8 6 / 0.6);
+    padding: 0 0.875rem;
+    color: var(--ivory);
+    font-size: 19px;
+    transition: border-color 150ms var(--ease-out);
+  }
+
+  .input::placeholder {
+    color: var(--faint);
+  }
+
+  .input:hover {
+    border-color: var(--line-strong);
+  }
+
+  .input:focus-visible {
+    border-color: var(--gold);
+    outline: 1px solid var(--gold);
+    outline-offset: 0;
+  }
+
+  .input[aria-invalid="true"] {
+    border-color: var(--danger);
+  }
+}
+
+/* Candle used by the loading screen. */
+@keyframes flicker {
+  0%, 100% { transform: scale(1, 1) translateY(0); opacity: 1; }
+  25% { transform: scale(0.94, 1.06) translateY(-1px); opacity: 0.92; }
+  50% { transform: scale(1.04, 0.96) translateY(0); opacity: 1; }
+  75% { transform: scale(0.97, 1.03) translateY(-0.5px); opacity: 0.95; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flame {
+    animation: flicker 1.6s ease-in-out infinite;
+    transform-origin: 50% 100%;
+  }
+}
